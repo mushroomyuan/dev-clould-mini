@@ -1,0 +1,156 @@
+syntax = "proto3";
+
+package go17.cmdb.resource;
+
+option go_package="github.com/mushroomyuan/dev-clould-mini/cmdb/apps/resource";
+
+service Rpc {
+  // 资源搜索
+  rpc Search(SearchRequest) returns(ResourceSet);
+  // Save 更新与创建同时
+  rpc Save(Resource) returns(Resource);
+}
+
+message SearchRequest {
+  // 页大小
+  // @gotags: form:"page_size"
+  int64 page_size = 1;
+  // 页码
+  // @gotags: form:"page_number"
+  int64 page_number = 2;
+  // 名称做模糊搜索
+  // @gotags: form:"keywords"
+  string keywords = 3;
+  // 资源类型
+  // @gotags: form:"type"
+  optional TYPE type = 4;
+  // 标签
+  // @gotags: form:"tag"
+  map<string,string> tag = 5;
+}
+
+message ResourceSet {
+  // 总量
+  int64 total = 1;
+  // 资源清单
+  repeated Resource items = 2;
+}
+
+message Resource {
+  // @gotags: bson:"inline" validate:"required"
+  Meta Meta = 1;
+  // @gotags: bson:"inline" validate:"required"
+  Spec Spec = 2;
+  // @gotags: bson:"inline" validate:"required"
+  Status Status = 3;
+}
+
+message Meta {
+  // 全局唯一Id, 直接使用个云商自己的Id
+  // @gotags: json:"id" bson:"_id" validate:"required"
+  string id = 1;
+  // 资源所属域
+  // @gotags: json:"domain" validate:"required"
+  string domain = 2;
+  // 资源所属空间
+  // @gotags: json:"namespace" validate:"required"
+  string namespace = 3;
+  // 资源所属环境
+  // @gotags: json:"env"
+  string env = 4;
+  // 创建时间
+  // @gotags: json:"create_at"
+  int64 create_at = 5;
+  // 删除时间
+  // @gotags: json:"detete_at"
+  int64 detete_at = 6;
+  // 删除人
+  // @gotags: json:"detete_by"
+  string detete_by = 7;
+  // 同步时间
+  // @gotags: json:"sync_at" validate:"required"
+  int64 sync_at = 8;
+  // 同步人
+  // @gotags: json:"sync_by"
+  string sync_by = 9;
+  // 用于同步的凭证ID
+  // @gotags: json:"credential_id"
+  string credential_id = 10;
+  // 序列号
+  // @gotags: json:"serial_number"
+  string serial_number = 11;
+}
+
+enum VENDOR {
+  ALIYUN = 0;
+  TENCENT = 1;
+  HUAWEI = 2;
+  VSPHERE = 3;
+  AMAZON = 4;
+}
+
+enum TYPE {
+  HOST = 0;
+  RDS = 1;
+}
+
+message Spec {
+  // 厂商
+  // @gotags: json:"vendor"
+  VENDOR vendor = 1;
+  // 资源类型
+  // @gotags: json:"resource_type"
+  TYPE resource_type = 2;
+  // 地域
+  // @gotags: json:"region"
+  string region = 3;
+  // 区域
+  // @gotags: json:"zone"
+  string zone = 4;
+  // 资源所属账号
+  // @gotags: json:"owner"
+  string owner = 5;
+  // 名称
+  // @gotags: json:"name"
+  string name = 6;
+  // 规格
+  // @gotags: json:"type"
+  string type = 7;
+  // 描述
+  // @gotags: json:"description"
+  string description = 8;
+  // 资源占用Cpu数量
+  // @gotags: json:"cpu"
+  int32 cpu = 9;
+  // 资源使用的内存
+  // @gotags: json:"memory"
+  int64 memory = 10;
+  // 资源使用的存储
+  // @gotags: json:"storage"
+  int64 storage = 11;
+  // 公网IP带宽, 单位M
+  // @gotags: json:"band_width"
+  int64 band_width = 12;
+  // 资源标签
+  // @gotags: json:"tags"
+  map<string,string> tags = 13;
+  // 额外的通用属性
+  // @gotags: json:"extra" gorm:"serializer:json"
+  map<string,string> extra = 14;
+}
+
+message Status {
+  // 资源当前状态
+  // @gotags: json:"phase"
+  string phase = 1;
+  // 资源当前状态描述
+  // @gotags: json:"describe"
+  string describe = 2;
+  // 资源访问地址
+  // 公网地址, 或者域名
+  // @gotags: json:"public_address" gorm:"serializer:json"
+  repeated string public_address = 3;
+  // 内网地址, 或者域名
+  // @gotags: json:"private_address" gorm:"serializer:json"
+  repeated string private_address = 4;
+}

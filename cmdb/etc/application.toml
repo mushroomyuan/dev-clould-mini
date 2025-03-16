@@ -33,6 +33,6 @@ trace = true
 endpoints = ["127.0.0.1:27017"]
 #username = "admin"
 #password = "123456"
-#database = "admin"
+database = "dev-clould-mini"
 #auth_db = "admin"
 #trace = true
