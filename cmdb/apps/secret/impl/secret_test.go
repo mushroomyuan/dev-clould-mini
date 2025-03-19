@@ -11,7 +11,7 @@ func TestCreateSecret(t *testing.T) {
 	req.Name = "阿里云只读账号"
 	req.Vendor = resource.VENDOR_ALIYUN
 	req.ApiKey = "xxx"
-	req.ApiSecret = "xxx"
+	req.ApiSecret = ""
 	req.Regions = []string{"ap-shanghai", "ap-guangzhou"}
 	ins, err := svc.CreateSecret(ctx, req)
 	if err != nil {
