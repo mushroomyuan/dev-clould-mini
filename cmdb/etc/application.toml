@@ -1,8 +1,7 @@
 [app]
-name = "cmdb"
-description = "cmdb"
-address = "localhost"
-encrypt_key = "defualt app encrypt key"
+# name = "cmdb"
+# description = "cmdb"
+# encrypt_key = "defualt app encrypt key"
 
 
 [http]
@@ -36,3 +35,12 @@ endpoints = ["127.0.0.1:27017"]
 database = "dev-clould-mini"
 #auth_db = "admin"
 #trace = true
+
+[apidoc]
+# Swagger API Doc URL路径, 默认自动生成带前缀的地址比如: /api/{service_name}/v1/apidoc
+# 你也可以在这里 修改这个相对路径
+base_path = ""
+# swagger json api path: {base_path}{json_path}, 比如/api/{service_name}/v1/apidoc/swagger.json
+json_path = "/swagger.json"
+# ui path: {base_path}{ui_path}, 比如/api/{service_name}/v1/apidoc/ui.html
+ui_path = "/ui.html"
