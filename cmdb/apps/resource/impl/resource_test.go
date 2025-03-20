@@ -24,3 +24,12 @@ func TestSave(t *testing.T) {
 	}
 	t.Log(resp)
 }
+
+func TestSearch(t *testing.T) {
+	req := resource.NewSearchRequest()
+	resp, err := svc.Search(ctx, req)
+	if err != nil {
+		t.Fatal(err)
+	}
+	t.Log(resp)
+}

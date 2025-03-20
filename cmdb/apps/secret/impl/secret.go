@@ -4,9 +4,11 @@ import (
 	"context"
 	"github.com/infraboard/mcube/v2/ioc/config/cache"
 	"github.com/infraboard/mcube/v2/types"
+	"github.com/mushroomyuan/dev-clould-mini/cmdb/apps/resource"
 	"github.com/mushroomyuan/dev-clould-mini/cmdb/apps/secret"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo/options"
+	"time"
 )
 
 // CreateSecret implements secret.Service.
@@ -91,28 +93,28 @@ func (s *SecretServiceImpl) QuerySecret(ctx context.Context, in *secret.QuerySec
 }
 
 // SyncResource implements secret.Service.
-//func (s *SecretServiceImpl) SyncResource(ctx context.Context, in *secret.SyncResourceRequest, cb secret.SyncResourceHandleFunc) error {
-//	ins, err := s.DescribeSecret(ctx, secret.NewDescribeSecretRequeset(in.Id))
-//	if err != nil {
-//		return err
-//	}
-//
-//	return ins.Sync(func(rr secret.ResourceResponse) {
-//		// 进行必要数据的填充
-//		rr.Resource.Meta.SyncAt = time.Now().Unix()
-//		// 资源归属
-//		rr.Resource.Meta.Domain = "default"
-//		rr.Resource.Meta.Namespace = "default"
-//
-//		// 调用resource模块来进行 资源的保存
-//		res, err := resource.GetService().Save(ctx, rr.Resource)
-//		if err != nil {
-//			rr.Success = false
-//			rr.Message = err.Error()
-//		} else {
-//			rr.Success = true
-//			rr.Resource = res
-//		}
-//		cb(rr)
-//	})
-//}
+func (s *SecretServiceImpl) SyncResource(ctx context.Context, in *secret.SyncResourceRequest, cb secret.SyncResourceHandleFunc) error {
+	ins, err := s.DescribeSecret(ctx, secret.NewDescribeSecretRequeset(in.Id))
+	if err != nil {
+		return err
+	}
+
+	return ins.Sync(func(rr secret.ResourceResponse) {
+		// 进行必要数据的填充
+		rr.Resource.Meta.SyncAt = time.Now().Unix()
+		// 资源归属
+		rr.Resource.Meta.Domain = "default"
+		rr.Resource.Meta.Namespace = "default"
+
+		// 调用resource模块来进行 资源的保存
+		res, err := resource.GetService().Save(ctx, rr.Resource)
+		if err != nil {
+			rr.Success = false
+			rr.Message = err.Error()
+		} else {
+			rr.Success = true
+			rr.Resource = res
+		}
+		cb(rr)
+	})
+}

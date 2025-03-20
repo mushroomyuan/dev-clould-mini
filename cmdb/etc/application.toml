@@ -44,3 +44,4 @@ base_path = ""
 json_path = "/swagger.json"
 # ui path: {base_path}{ui_path}, 比如/api/{service_name}/v1/apidoc/ui.html
 ui_path = "/ui.html"
+

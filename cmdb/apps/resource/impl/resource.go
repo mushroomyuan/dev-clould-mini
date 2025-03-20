@@ -39,7 +39,7 @@ func (s *ResourceServiceImpl) Save(ctx context.Context, in *resource.Resource) (
 		return nil, err
 	}
 	// 保持数据需要从ioc里获取一个mongodb实例
-	_, err := s.col.InsertOne(ctx, in)
+	_, err := s.col.UpdateOne(ctx, bson.M{"_id": in.Meta.Id}, bson.M{"$set": in}, options.Update().SetUpsert(true))
 	if err != nil {
 		return nil, err
 	}

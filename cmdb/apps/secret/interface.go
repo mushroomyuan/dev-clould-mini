@@ -35,7 +35,7 @@ type Service interface {
 	// SyncResource(Req) Resp
 
 	// Stream API, websocket --> UI 当前资源同步的进度
-	//SyncResource(context.Context, *SyncResourceRequest, SyncResourceHandleFunc) error
+	SyncResource(context.Context, *SyncResourceRequest, SyncResourceHandleFunc) error
 }
 
 type SyncResourceHandleFunc func(ResourceResponse)

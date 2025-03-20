@@ -10,9 +10,9 @@ func TestCreateSecret(t *testing.T) {
 	req := secret.NewCreateSecretRequest()
 	req.Name = "阿里云只读账号"
 	req.Vendor = resource.VENDOR_ALIYUN
-	req.ApiKey = "xxx"
+	req.ApiKey = ""
 	req.ApiSecret = ""
-	req.Regions = []string{"ap-shanghai", "ap-guangzhou"}
+	req.Regions = []string{"cn-beijing"}
 	ins, err := svc.CreateSecret(ctx, req)
 	if err != nil {
 		t.Fatal(err)
@@ -30,10 +30,20 @@ func TestQuerySecret(t *testing.T) {
 }
 
 func TestDescribeSecret(t *testing.T) {
-	req := secret.NewDescribeSecretRequeset("ebbde3e6-1525-3a3b-ae2f-16c101f15cd5")
+	req := secret.NewDescribeSecretRequeset("12770802-fd7d-3378-91a9-16e12caa242e")
 	ins, err := svc.DescribeSecret(ctx, req)
 	if err != nil {
 		t.Fatal(err)
 	}
 	t.Log(ins)
+}
+
+func TestSyncResource(t *testing.T) {
+	req := secret.NewSyncResourceRequest("12770802-fd7d-3378-91a9-16e12caa242e")
+	err := svc.SyncResource(ctx, req, func(rr secret.ResourceResponse) {
+		t.Log(rr)
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
 }
