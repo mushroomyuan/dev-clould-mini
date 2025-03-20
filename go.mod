@@ -12,6 +12,7 @@ require (
 	github.com/emicklei/go-restful-openapi/v2 v2.10.2
 	github.com/emicklei/go-restful/v3 v3.12.1
 	github.com/google/uuid v1.6.0
+	github.com/gorilla/websocket v1.5.3
 	github.com/infraboard/mcube/v2 v2.0.52
 	go.mongodb.org/mongo-driver v1.17.3
 	google.golang.org/grpc v1.71.0
